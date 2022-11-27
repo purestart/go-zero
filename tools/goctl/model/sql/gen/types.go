@@ -14,6 +14,8 @@ func genTypes(table Table, methods string, withCache bool) (string, error) {
 		return "", err
 	}
 
+	camelFields := genCamelFields(table, fields)
+
 	text, err := pathx.LoadTemplate(category, typesTemplateFile, template.Types)
 	if err != nil {
 		return "", err
@@ -28,6 +30,7 @@ func genTypes(table Table, methods string, withCache bool) (string, error) {
 			"lowerStartCamelObject": stringx.From(table.Name.ToCamel()).Untitle(),
 			"fields":                fieldsString,
 			"data":                  table,
+			"camelFields":           camelFields,
 		})
 	if err != nil {
 		return "", err

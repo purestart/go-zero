@@ -3,6 +3,7 @@ package gen
 import (
 	"database/sql"
 	_ "embed"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -30,11 +31,13 @@ func TestCacheModel(t *testing.T) {
 	_ = Clean()
 
 	sqlFile := filepath.Join(pathx.MustTempDir(), "tmp.sql")
+	fmt.Printf("===== %v", sqlFile)
 	err := ioutil.WriteFile(sqlFile, []byte(source), 0o777)
 	assert.Nil(t, err)
 
 	dir := filepath.Join(pathx.MustTempDir(), "./testmodel")
 	cacheDir := filepath.Join(dir, "cache")
+	fmt.Printf("===cacheDir== %v", cacheDir)
 	noCacheDir := filepath.Join(dir, "nocache")
 	g, err := NewDefaultGenerator(cacheDir, &config.Config{
 		NamingFormat: "GoZero",

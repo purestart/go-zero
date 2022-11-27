@@ -3,7 +3,7 @@ build:
 	$(if $(shell command -v upx), upx goctl)
 
 mac:
-	GOOS=darwin go build -ldflags="-s -w" -o goctl-darwin goctl.go
+	GOOS=darwin go build -ldflags="-s -w" -o mygoctl goctl.go
 	$(if $(shell command -v upx), upx goctl-darwin)
 
 win:

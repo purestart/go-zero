@@ -24,6 +24,17 @@ func genFields(table Table, fields []*parser.Field) (string, error) {
 	return strings.Join(list, "\n"), nil
 }
 
+// 获取所有字段的为大写的数组
+func genCamelFields(table Table, fields []*parser.Field) []string {
+	var list []string
+
+	for _, field := range fields {
+		list = append(list, util.SafeString(field.Name.ToCamel()))
+	}
+
+	return list
+}
+
 func genField(table Table, field *parser.Field) (string, error) {
 	tag, err := genTag(table, field.NameOriginal)
 	if err != nil {

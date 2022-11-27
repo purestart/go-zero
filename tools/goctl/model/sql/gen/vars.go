@@ -11,7 +11,21 @@ import (
 	"github.com/zeromicro/go-zero/tools/goctl/util/stringx"
 )
 
+type CamelMap struct {
+	UpperStartField string
+	LowerStartField string
+}
+
 func genVars(table Table, withCache, postgreSql bool) (string, error) {
+	fields := table.Fields
+	var fieldsMap []*CamelMap
+	for _, field := range fields {
+		tml := &CamelMap{
+			util.SafeString(field.Name.ToCamel()),
+			field.NameOriginal,
+		}
+		fieldsMap = append(fieldsMap, tml)
+	}
 	keys := make([]string, 0)
 	keys = append(keys, table.PrimaryCacheKey.VarExpression)
 	for _, v := range table.UniqueCacheKey {
@@ -34,6 +48,7 @@ func genVars(table Table, withCache, postgreSql bool) (string, error) {
 		"withCache":             withCache,
 		"postgreSql":            postgreSql,
 		"data":                  table,
+		"fieldsMap":             fieldsMap,
 		"ignoreColumns": func() string {
 			var set = collection.NewSet()
 			for _, c := range table.ignoreColumns {
