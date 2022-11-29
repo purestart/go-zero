@@ -7,7 +7,7 @@ mac:
 	$(if $(shell command -v upx), upx goctl-darwin)
 
 win:
-	GOOS=windows go build -ldflags="-s -w" -o goctl.exe goctl.go
+	GOOS=windows go build -ldflags="-s -w" -o mygoctl.exe goctl.go
 	$(if $(shell command -v upx), upx goctl.exe)
 
 linux:
